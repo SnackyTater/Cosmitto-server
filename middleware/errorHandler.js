@@ -1,4 +1,5 @@
-export default function (error = { message: '', code: 400, data: {} }, request, response, next) {
+export default function (error, request, response, next) {
+    console.log('aaaaaa')
     const { message, code, data } = error
-    response?.code(code).json({ message, data })
+    response?.status(code).json({ message, data })
 }

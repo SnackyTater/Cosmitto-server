@@ -3,7 +3,7 @@ import path from 'path'
 import errorHandler from '../middleware/errorHandler.js'
 
 //declare API here
-
+import sampleAPI from '../api/sample.js'
 //////////////////
 
 export default function (express) {
@@ -13,11 +13,11 @@ export default function (express) {
     app.use(express.json());    //parsing raw json
     app.use(express.urlencoded({ extended: true })); //parsing application/x-www-form-urlencoded
 
+    //use API route
+    app.use('/', sampleAPI)
+
     //use middleware
     app.use(errorHandler)
-
-    //use API route
-
 
     //use front-end build
     // app.use(express.static(path.resolve(__dirname, '../../client/build')));
