@@ -21,4 +21,4 @@ const wss = WebSocketLoader(server);
 
 
 server.listen(5000, () => console.log('now running on port 5000'));
-// const mongoose = MongooseLoader(() => console.log('mongoose now online'));
+const mongoose = MongooseLoader(() => console.log('mongoose now online'));

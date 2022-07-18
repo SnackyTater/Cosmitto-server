@@ -1,6 +1,8 @@
 import { Router } from 'express'
 // import { createError } from '../utils'
 
+import { create } from '../controller/sample.js'
+
 //setup router
 const router = Router();
 
@@ -18,6 +20,16 @@ router.get('/home', (req, res, next) => {
     } catch (err) {
         console.log('aaaa')
         next(err);
+    }
+})
+
+router.post('/', async (req, res, next) => {
+    try {
+        const newSample = await create(req.body)
+
+        return res.status(200).json(newSample)
+    } catch (err) {
+        next(err)
     }
 })
 

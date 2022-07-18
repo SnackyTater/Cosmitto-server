@@ -5,6 +5,7 @@ export default function (server) {
 
     wss.on('connection', socket => {
         socket.send('open');
+        socket.room = []
 
         socket.on('message', message => {
             socket.send(message.toString())
@@ -13,6 +14,7 @@ export default function (server) {
         socket.on('rtc', data => {
             socket.send(data.toString())
         })
+
     })
 
     return wss
