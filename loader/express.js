@@ -3,7 +3,7 @@ import path from 'path'
 import errorHandler from '../middleware/errorHandler.js'
 
 //declare API here
-import sampleAPI from '../api/sample.js'
+import accountAPI from '../api/account.js'
 //////////////////
 
 export default function (express) {
@@ -14,7 +14,7 @@ export default function (express) {
     app.use(express.urlencoded({ extended: true })); //parsing application/x-www-form-urlencoded
 
     //use API route
-    app.use('/', sampleAPI)
+    app.use('/api/account', accountAPI)
 
     //use middleware
     app.use(errorHandler)
