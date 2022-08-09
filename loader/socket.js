@@ -1,5 +1,4 @@
 import {WebSocketServer} from "ws"
-import url from "url"
 
 export default function (server) {
     const wss = new WebSocketServer({server})
@@ -13,6 +12,7 @@ export default function (server) {
         const join = room => {
             if (!rooms[room]) rooms[room] = {} //create room
             if (!rooms[room][uuid]) rooms[room][uuid] = socket
+            socket.send("join room successfully")
         }
 
         const leave = room => {
@@ -25,15 +25,12 @@ export default function (server) {
             const parseData = JSON.parse(message)
             const {action, data, room} = parseData
 
-            console.log("message", parseData, rooms)
-
             if (action === "join") join(room)
             if (action === "leave") leave(room)
-            if (action === "message") {
+            if (action === "message")
                 Object.entries(rooms[room]).forEach(([, socket]) =>
                     socket.send(data)
                 )
-            }
         })
     })
 
