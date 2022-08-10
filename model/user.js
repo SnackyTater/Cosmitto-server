@@ -31,7 +31,8 @@ const userchema = new Schema({
         {
             imageID: String,
             url: String,
-            _id: false
+            _id: false,
+            default: []
         }
     ],
     location: {
