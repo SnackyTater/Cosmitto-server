@@ -4,65 +4,69 @@ const Schema = mongoose.Schema
 const userchema = new Schema({
     account: {
         type: mongoose.Types.ObjectId,
-        ref: 'account',
-        required: [true, 'required']
+        ref: "account",
+        required: [true, "required"]
     },
     fullname: {
         type: String,
-        required: [true, 'required']
+        required: [true, "required"]
     },
     dateOfBirth: {
         type: Date,
-        required: [true, 'required'],
+        required: [true, "required"]
     },
-    passions: [{
-        type: mongoose.Types.ObjectId,
-        ref: 'passion',
-        default: [],
-    }],
+    passions: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "passion",
+            default: []
+        }
+    ],
     gender: {
         type: String,
-        enum: ['male', 'female', 'undisclosed'],
-        default: 'undisclosed'
+        enum: ["male", "female", "undisclosed"],
+        default: "undisclosed"
     },
-    galleries: [{
-        imageID: String,
-        url: String,
-        default: [],
-    }],
+    galleries: [
+        {
+            imageID: String,
+            url: String,
+            _id: false
+        }
+    ],
     location: {
         type: {
             type: String,
-            default: 'Point',
+            default: "Point"
         },
         coordinates: {
             type: [Number],
-            default: [0, 0],
+            default: [0, 0]
         }
     },
     interestedIn: {
         type: String,
-        enum: ['male', 'female', 'both'],
-        default: 'both',
+        enum: ["male", "female", "both"],
+        default: "both"
     },
     ageFrom: {
         type: Number,
-        default: 18,
+        default: 18
     },
     ageTo: {
         type: Number,
-        default: 31,
+        default: 31
     },
     zoneLimit: {
         type: Number,
-        default: 10000,
+        default: 10000
     },
     isLimit: {
         type: Boolean,
-        default: true,
+        default: true
     }
 })
 
-userchema.index({ location: '2dsphere' })
-const user = mongoose.model('user', userchema)
+userchema.index({location: "2dsphere"})
+const user = mongoose.model("user", userchema)
 export default user
