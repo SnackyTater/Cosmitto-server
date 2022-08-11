@@ -5,6 +5,7 @@ import {createError, extractMongooseError} from "../utils/error.js"
 
 export const getAccount = async identifier => {
     try {
+        console.log("awdawdawd", identifier)
         const result = await AccountSchema.findById({_id: identifier})
 
         if (result) return result
@@ -99,4 +100,26 @@ export const deleteAccount = async identifier => {
     //     session.endSession()
     //     createError({ message: err.message, code: 400 })
     // }
+}
+
+export const login = async (identifier, password) => {
+    try {
+        const account = await AccountSchema.findOne({
+            $or: [{email: identifier}, {mobile: identifier}]
+        })
+
+        if (!account) createError({message: "wrong account", code: 400})
+        if (password !== account.password) createError({message: "wrong password", code: 400})
+
+        const user = await UserSchema.findOne({account: account._id})
+
+        if (!user) createError({message: "cant get user info", code: 500})
+
+        return {
+            UID: user._id,
+            AID: account._id
+        }
+    } catch (err) {
+        createError({message: err.message, code: err.code || 400, data: err.data})
+    }
 }
