@@ -18,8 +18,8 @@ import WebSocketLoader from "./loader/socket.js"
 const app = ExpressLoader(express)
 const server = http.createServer(app)
 const wss = WebSocketLoader(server)
-
+console.log("aaaa", wss)
 server.listen(5000, () => console.log("now running on port 5000"))
-MongooseLoader(() => console.log("mongoose now online"))
+// MongooseLoader(() => console.log("mongoose now online"))
 
 global.io = wss

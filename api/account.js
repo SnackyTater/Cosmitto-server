@@ -1,15 +1,15 @@
 import {Router} from "express"
-import {createError} from "../utils/error.js"
+
 import authMiddleware from "../middleware/auth.js"
-import {createResponse} from "../utils/response.js"
-import {createToken} from "../utils/auth.js"
+import {createResponse} from "#utils/response.js"
+import {createToken} from "#utils/auth.js"
 import {
     createAccount,
     getAccount,
     updateAccount,
     deleteAccount,
     login
-} from "../controller/account.js"
+} from "#controller/account.js"
 
 //setup router
 const router = Router()
@@ -75,6 +75,15 @@ router.post("/login", async (req, res, next) => {
         })
 
         res.status(200).json(response)
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get("/sock", async (req, res, next) => {
+    try {
+        console.log("io", io.rooms["a"]["/?id=1"])
+        io.rooms["a"]["/?id=1"].send("aaaaaaaaaaa")
     } catch (err) {
         next(err)
     }

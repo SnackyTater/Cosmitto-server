@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "#api": ["./api"],
+            "#api/*": ["./api/*"],
+            "#utils": ["./utils"],
+            "#utils/*": ["./utils/*"],
+            "#model": ["./model"],
+            "#model/*": ["./model/*"],
+            "#loader": ["./loader"],
+            "#loader/*": ["./loader/*"],
+            "#service": ["./service"],
+            "#service/*": ["./service/*"],
+            "#controller": ["./controller"],
+            "#controller/*": ["./controller/*"],
+            "#middleware": ["./middleware"],
+            "#middleware/*": ["./middleware/*"]
+        }
+    },
+    "include": ["**/*.js"],
+    "exclude": ["node_modules"]
+}

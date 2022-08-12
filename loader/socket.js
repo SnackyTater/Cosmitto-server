@@ -3,22 +3,23 @@ import {WebSocketServer} from "ws"
 export default function (server) {
     const wss = new WebSocketServer({server})
 
-    const rooms = {}
+    wss.rooms = {}
 
     wss.on("connection", (socket, req) => {
         const uuid = req.url
         socket.send("open")
+        global.socket = socket
 
         const join = room => {
-            if (!rooms[room]) rooms[room] = {} //create room
-            if (!rooms[room][uuid]) rooms[room][uuid] = socket
+            if (!wss.rooms[room]) wss.rooms[room] = {} //create room
+            if (!wss.rooms[room][uuid]) wss.rooms[room][uuid] = socket
             socket.send("join room successfully")
         }
 
         const leave = room => {
-            if (!rooms[room][uuid]) return
-            if (Object.keys(rooms[room]).length === 1) delete rooms[room]
-            else delete rooms[room][uuid]
+            if (!wss.rooms[room][uuid]) return
+            if (Object.keys(wss.rooms[room]).length === 1) delete wss.rooms[room]
+            else delete wss.rooms[room][uuid]
         }
 
         socket.on("message", message => {
@@ -28,9 +29,7 @@ export default function (server) {
             if (action === "join") join(room)
             if (action === "leave") leave(room)
             if (action === "message")
-                Object.entries(rooms[room]).forEach(([, socket]) =>
-                    socket.send(data)
-                )
+                Object.entries(wss.rooms[room]).forEach(([, socket]) => socket.send(data))
         })
     })
 

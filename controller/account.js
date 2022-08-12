@@ -85,6 +85,7 @@ export const updateAccount = async (identifier, data) => {
 export const deleteAccount = async identifier => {
     const accountSession = await AccountSchema.startSession()
     const userSession = await UserSchema.startSession()
+    // const matchMakingSession
     accountSession.startTransaction()
     userSession.startTransaction()
 
