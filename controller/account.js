@@ -1,7 +1,7 @@
-import AccountSchema from "../model/account.js"
-import UserSchema from "../model/user.js"
-import matchMakingSchema from "../model/matchMaking.js"
-import {createError, extractMongooseError} from "../utils/error.js"
+import AccountSchema from "#model/account.js"
+import UserSchema from "#model/user.js"
+import matchMakingSchema from "#model/matchMaking.js"
+import {createError, extractMongooseError} from "#utils/error.js"
 
 export const getAccount = async identifier => {
     try {
@@ -82,25 +82,43 @@ export const updateAccount = async (identifier, data) => {
     }
 }
 
-export const deleteAccount = async identifier => {
+export const deleteAccount = async (accountIdentifier, userIdentifier) => {
     const accountSession = await AccountSchema.startSession()
     const userSession = await UserSchema.startSession()
-    // const matchMakingSession
+    const matchMakingSession = await matchMakingSchema.startSession()
     accountSession.startTransaction()
     userSession.startTransaction()
+    matchMakingSession.startTransaction()
 
-    // try {
-    //     const accountresult = await AccountSchema.deleteOne({ _id: identifier })
+    try {
+        const accountResult = await AccountSchema.deleteOne({_id: accountIdentifier})
+        const userResult = await UserSchema.deleteOne({_id: userIdentifier})
+        const matchMakingResult = await matchMakingSchema.deleteOne({user: userIdentifier})
 
-    //         await session.commitTransaction()
-    //     session.endSession()
+        if (accountResult && userResult && matchMakingResult) {
+            await accountSession.commitTransaction()
+            await userSession.commitTransaction()
+            await matchMakingSession.commitTransaction()
 
-    //     return result;
-    // } catch (err) {
-    //     await session.abortTransaction()
-    //     session.endSession()
-    //     createError({ message: err.message, code: 400 })
-    // }
+            accountSession.endSession()
+            userSession.endSession()
+            matchMakingSession.endSession()
+
+            return result
+        }
+
+        createError({message: "something has gone wrong", code: 500})
+    } catch (err) {
+        await accountSession.abortTransaction()
+        await userSession.abortTransaction()
+        await matchMakingSession.abortTransaction()
+
+        accountSession.endSession()
+        userSession.endSession()
+        matchMakingSession.endSession()
+
+        createError({message: err.message, code: 400})
+    }
 }
 
 export const login = async (identifier, password) => {
@@ -122,5 +140,23 @@ export const login = async (identifier, password) => {
         }
     } catch (err) {
         createError({message: err.message, code: err.code || 400, data: err.data})
+    }
+}
+
+export const resetPassword = (identifier, password) => {
+    const session = await AccountSchema.startSession()
+    session.startTransaction()
+
+    try {
+        const result = await AccountSchema.updateOne({_id: identifier}, {password: password})
+
+        await session.commitTransaction()
+        session.endSession()
+
+        return result
+    } catch (err) {
+        await session.abortTransaction()
+        session.endSession()
+        createError({message: err.message, code: 400})
     }
 }
