@@ -14,8 +14,10 @@ import {
 //setup router
 const router = Router()
 
-router.get("/", authMiddleware, async (req, res, next) => {
+router.post("/reset-password", authMiddleware, async (req, res, next) => {
     try {
+        const {action, payload} = req.body
+
         const account = await getAccount(req.tokenInfo.AID)
 
         const response = createResponse({
@@ -29,7 +31,7 @@ router.get("/", authMiddleware, async (req, res, next) => {
     }
 })
 
-router.post("/", async (req, res, next) => {
+router.post("/verify", async (req, res, next) => {
     try {
         const result = await createAccount(req.body)
 
@@ -42,48 +44,6 @@ router.post("/", async (req, res, next) => {
         })
 
         res.status(200).json(response)
-    } catch (err) {
-        next(err)
-    }
-})
-
-router.put("/", authMiddleware, (req, res, next) => {
-    try {
-    } catch (err) {
-        next(err)
-    }
-})
-
-router.delete("/", authMiddleware, (req, res, next) => {
-    try {
-    } catch (err) {
-        next(err)
-    }
-})
-
-router.post("/login", async (req, res, next) => {
-    try {
-        const {identifier, password} = req.body
-        console.log('aaaaaa')
-        const result = await login(identifier, password)
-
-        const token = createToken(result)
-
-        const response = createResponse({
-            message: "login successfully",
-            data: token
-        })
-
-        res.status(200).json(response)
-    } catch (err) {
-        next(err)
-    }
-})
-
-router.get("/sock", async (req, res, next) => {
-    try {
-        console.log("io", io.rooms["a"]["/?id=1"])
-        io.rooms["a"]["/?id=1"].send("aaaaaaaaaaa")
     } catch (err) {
         next(err)
     }

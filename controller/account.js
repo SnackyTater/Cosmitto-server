@@ -2,10 +2,10 @@ import AccountSchema from "#model/account.js"
 import UserSchema from "#model/user.js"
 import matchMakingSchema from "#model/matchMaking.js"
 import {createError, extractMongooseError} from "#utils/error.js"
+import {} from '#service/mail.js'
 
 export const getAccount = async identifier => {
     try {
-        console.log("awdawdawd", identifier)
         const result = await AccountSchema.findById({_id: identifier})
 
         if (result) return result
@@ -143,7 +143,7 @@ export const login = async (identifier, password) => {
     }
 }
 
-export const resetPassword = (identifier, password) => {
+export const resetPassword = async (identifier, password) => {
     const session = await AccountSchema.startSession()
     session.startTransaction()
 
@@ -158,5 +158,20 @@ export const resetPassword = (identifier, password) => {
         await session.abortTransaction()
         session.endSession()
         createError({message: err.message, code: 400})
+    }
+}
+
+export const verifyAccount = async (identifier) => {
+    try {
+        const account = await AccountSchema.findOne({
+            $or: [{email: identifier}, {mobile: identifier}]
+        })
+
+        if(!account) createError({message: "can't find any account with given info", code: 404})
+
+        return true
+
+    } catch (error) {
+        createError({message: err.message, code: err.code || 400})
     }
 }

@@ -1,5 +1,5 @@
-import {createError} from "../utils/error.js"
-import {verifyToken} from "../utils/auth.js"
+import {createError} from "#utils/error.js"
+import {verifyToken} from "#utils/auth.js"
 
 export default async function (req, res, next) {
     try {

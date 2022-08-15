@@ -13,13 +13,16 @@ dotenv.config({
 import ExpressLoader from "./loader/express.js"
 import MongooseLoader from "./loader/mongoose.js"
 import WebSocketLoader from "./loader/socket.js"
+import {getNewRefreshToken} from './service/oauth2.js'
 
 //setup server
 const app = ExpressLoader(express)
 const server = http.createServer(app)
 const wss = WebSocketLoader(server)
-console.log("aaaa", wss)
+
 server.listen(5000, () => console.log("now running on port 5000"))
 // MongooseLoader(() => console.log("mongoose now online"))
+
+getNewRefreshToken(process.env.GOOGLE_REFRESH_TOKEN)
 
 global.io = wss
