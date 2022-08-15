@@ -33,17 +33,13 @@ router.post("/reset-password", authMiddleware, async (req, res, next) => {
 
 router.post("/verify", async (req, res, next) => {
     try {
-        const result = await createAccount(req.body)
+        const {identifier, type} = req.body
 
-        const {account, user} = result
+        const verifyStatus = await createAccount(identifier)
 
-        const token = createToken({AID: account._id, UID: user._id})
-        const response = createResponse({
-            message: "account created successfully",
-            data: token
-        })
-
-        res.status(200).json(response)
+        if(verifyStatus){
+            
+        }
     } catch (err) {
         next(err)
     }
