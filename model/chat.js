@@ -1,5 +1,7 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
+
+const limit = (features) => features.length === 2 ? true : false
 
 const chatSchema = new Schema({
     user: {
@@ -22,4 +24,4 @@ const chatSchema = new Schema({
 
 
 const chat = mongoose.model('chat', chatSchema)
-export default chat
+exports.default = chat

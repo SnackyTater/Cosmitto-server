@@ -1,10 +1,10 @@
-import AccountSchema from "#model/account.js"
-import UserSchema from "#model/user.js"
-import matchMakingSchema from "#model/matchMaking.js"
-import {createError, extractMongooseError} from "#utils/error.js"
-import {} from '#service/mail.js'
+const AccountSchema = require("#model/account.js") 
+const UserSchema = require("#model/user.js") 
+const matchMakingSchema = require("#model/matchMaking.js") 
+const {createError, extractMongooseError} = require("#utils/error.js") 
+// const {} = require('#service/mail.js') 
 
-export const getAccount = async identifier => {
+const getAccount = async identifier => {
     try {
         const result = await AccountSchema.findById({_id: identifier})
 
@@ -16,7 +16,7 @@ export const getAccount = async identifier => {
     }
 }
 
-export const createAccount = async data => {
+const createAccount = async data => {
     const accountSession = await AccountSchema.startSession()
     const userSession = await UserSchema.startSession()
     const matchMakingSession = await matchMakingSchema.startSession()
@@ -64,7 +64,7 @@ export const createAccount = async data => {
     }
 }
 
-export const updateAccount = async (identifier, data) => {
+const updateAccount = async (identifier, data) => {
     const session = await AccountSchema.startSession()
     session.startTransaction()
 
@@ -82,7 +82,7 @@ export const updateAccount = async (identifier, data) => {
     }
 }
 
-export const deleteAccount = async (accountIdentifier, userIdentifier) => {
+const deleteAccount = async (accountIdentifier, userIdentifier) => {
     const accountSession = await AccountSchema.startSession()
     const userSession = await UserSchema.startSession()
     const matchMakingSession = await matchMakingSchema.startSession()
@@ -121,7 +121,7 @@ export const deleteAccount = async (accountIdentifier, userIdentifier) => {
     }
 }
 
-export const login = async (identifier, password) => {
+const login = async (identifier, password) => {
     try {
         const account = await AccountSchema.findOne({
             $or: [{email: identifier}, {mobile: identifier}]
@@ -143,7 +143,7 @@ export const login = async (identifier, password) => {
     }
 }
 
-export const resetPassword = async (identifier, password) => {
+const resetPassword = async (identifier, password) => {
     const session = await AccountSchema.startSession()
     session.startTransaction()
 
@@ -161,7 +161,7 @@ export const resetPassword = async (identifier, password) => {
     }
 }
 
-export const verifyAccount = async (identifier) => {
+const verifyAccount = async (identifier) => {
     try {
         const account = await AccountSchema.findOne({
             $or: [{email: identifier}, {mobile: identifier}]
@@ -174,4 +174,14 @@ export const verifyAccount = async (identifier) => {
     } catch (error) {
         createError({message: err.message, code: err.code || 400})
     }
+}
+
+module.exports = {
+    getAccount,
+    createAccount,
+    updateAccount,
+    deleteAccount,
+    login,
+    resetPassword,
+    verifyAccount,
 }

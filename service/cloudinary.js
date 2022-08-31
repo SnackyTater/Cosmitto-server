@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary"
+const cloudinary = require("cloudinary") 
 
 const createCloudinaryConfig = () => {
     const cloud = cloudinary.v2
@@ -9,12 +9,17 @@ const createCloudinaryConfig = () => {
     })
 }
 
-export const uploadImage = async filePath =>
+const uploadImage = async filePath =>
     await createCloudinaryConfig().uploader.upload(filePath, err => {
         throw new Error(err.message)
     })
 
-export const deleteImage = async publicId =>
+const deleteImage = async publicId =>
     await createCloudinaryConfig().uploader.destroy(publicId, err => {
         throw new Error(err.message)
     })
+
+module.exports = {
+    uploadImage,
+    deleteImage,
+}

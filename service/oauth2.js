@@ -1,6 +1,6 @@
-import {google} from 'googleapis'
+const {google} = require('googleapis')
 
-export const getNewRefreshToken = async(oldRefreshToken) => {
+exports.default = async(oldRefreshToken) => {
     let oauth2Client = new google.auth.OAuth2(
         process.env.GOOGLE_CLIENT_ID,
         process.env.GOOGLE_CLIENT_SECRET,

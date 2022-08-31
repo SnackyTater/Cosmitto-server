@@ -1,18 +1,18 @@
-import {Router} from "express"
+const {Router} = require("express") 
 
-import authMiddleware from "../middleware/auth.js"
-import {createResponse} from "#utils/response.js"
-import {
+const authMiddleware = require("../middleware/auth.js") 
+const {createResponse} = require("#utils/response.js") 
+const {
     likeUser,
     passUser,
     getRecommend,
     getMatches,
-} from "#controller/matchMaking.js"
+} = require("#controller/matchMaking.js")
 
 //setup router
 const router = Router()
 
-router.get("/recs", authMiddleware, async (req, res, next) => {
+router.get("/recs", async (req, res, next) => {
     try {
         const userList = await getRecommend(req.tokenInfo.UID)
 
@@ -45,12 +45,12 @@ router.post("/like", async (req, res, next) => {
     }
 })
 
-router.post("/pass", authMiddleware, (req, res, next) => {
+router.post("/pass", async (req, res, next) => {
     try {
         const userID = req.tokenInfo.UID
         const targetID = req.body.targetID
 
-        const result = await passUser(userID, targetID)
+        // const result = await passUser(userID, targetID)
 
         const response = createResponse({
             message: `like ${result.fullname} successfully`,
@@ -63,7 +63,7 @@ router.post("/pass", authMiddleware, (req, res, next) => {
     }
 })
 
-router.get("/matches", authMiddleware, (req, res, next) => {
+router.get("/matches", async (req, res, next) => {
     try {
         const userID = req.token.UID
 
@@ -80,4 +80,4 @@ router.get("/matches", authMiddleware, (req, res, next) => {
     }
 })
 
-export default router
+module.exports = router

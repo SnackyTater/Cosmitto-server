@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose") 
 const Schema = mongoose.Schema
 
 const userchema = new Schema({
@@ -70,4 +70,4 @@ const userchema = new Schema({
 
 userchema.index({location: "2dsphere"})
 const user = mongoose.model("user", userchema)
-export default user
+exports.default = user

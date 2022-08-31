@@ -1,11 +1,11 @@
-import matchMakingSchema from '../model/matchMaking.js'
-import userSchema from '../model/user.js'
-import chatSchema from '../model/chat.js'
-import { createError } from '../utils/error.js'
-import { createResponse } from '../utils/response.js'
-import { dobCalulate } from '../utils/date.js'
+const matchMakingSchema = require('../model/matchMaking.js') 
+const userSchema = require('../model/user.js') 
+const chatSchema = require('../model/chat.js') 
+const { createError } = require('../utils/error.js') 
+const { createResponse } = require('../utils/response.js') 
+const { dobCalulate } = require('../utils/date.js') 
 
-export const getRecommend = async (userID) => {
+const getRecommend = async (userID) => {
     try {
         const userInfo = await userSchema.findById({ _id: userID })
         const userMatchMakingStatus = await matchMakingSchema.findOne({ user: userID })
@@ -67,7 +67,7 @@ export const getRecommend = async (userID) => {
     }
 }
 
-export const getMatches = async (userID) => {
+const getMatches = async (userID) => {
     try {
         const userMatchMakingStatus = await matchMakingSchema.find({ user: userID })
 
@@ -83,7 +83,7 @@ export const getMatches = async (userID) => {
     }
 }
 
-export const likeUser = async (user, target) => {
+const likeUser = async (user, target) => {
     const session = await matchMakingSchema.startSession()
     session.startTransaction();
 
@@ -116,7 +116,7 @@ export const likeUser = async (user, target) => {
     }
 }
 
-export const unlikeUser = async (user, target) => {
+const unlikeUser = async (user, target) => {
     const session = await matchMakingSchema.startSession()
     session.startTransaction();
 
@@ -148,7 +148,7 @@ export const unlikeUser = async (user, target) => {
     }
 }
 
-export const matchUser = async (user, target) => {
+const matchUser = async (user, target) => {
     const session = await matchMakingSchema.startSession()
     session.startTransaction();
 
@@ -180,14 +180,39 @@ export const matchUser = async (user, target) => {
     }
 }
 
-export const unmatchUser = async (identifier) => {
+const unmatchUser = async (user, target) => {
+    const session = await matchMakingSchema.startSession()
+    session.startTransaction();
+
     try {
+        const userStatus = await matchMakingSchema.updateOne({ user }, {
+            $pop: {
+                matchMaking: {
+                    user: target,
+                    status: 'matches'
+                }
+            }
+        })
+
+        const { n, nModified, ok } = userStatus
+
+        if (n && nModified && ok) {
+            await session.commitTransaction()
+            session.endSession()
+
+            return createResponse({ message: 'unlike user successfully' })
+        }
+
+        createError({ message: 'something gone wrong', code: 500 })
     } catch (err) {
+        await session.abortTransaction()
+        session.endSession()
+
         createError({ message: err.message, code: 400 })
     }
 }
 
-export const passUser = async (user, target) => {
+const passUser = async (user, target) => {
     const session = await matchMakingSchema.startSession()
     session.startTransaction();
 
@@ -219,7 +244,7 @@ export const passUser = async (user, target) => {
     }
 }
 
-export const unpassUser = async (identifier) => {
+const unpassUser = async (user, identifier) => {
     const session = await matchMakingSchema.startSession()
     session.startTransaction();
 
@@ -227,7 +252,7 @@ export const unpassUser = async (identifier) => {
         const userStatus = await matchMakingSchema.updateOne({ user }, {
             $pop: {
                 matchMaking: {
-                    user: target,
+                    user: identifier,
                     status: 'pass'
                 }
             }
@@ -249,4 +274,15 @@ export const unpassUser = async (identifier) => {
 
         createError({ message: err.message, code: 400 })
     }
+}
+
+module.exports = {
+    getRecommend,
+    getMatches,
+    likeUser,
+    unlikeUser,
+    matchUser,
+    unmatchUser,
+    passUser,
+    unpassUser,
 }

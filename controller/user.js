@@ -1,7 +1,7 @@
-import UserSchema from '../model/user.js'
-import { createError } from '../utils/error.js'
+const UserSchema = require('#model/user.js')
+const { createError } = require('#utils/error.js')
 
-export const getUser = async (identifier) => {
+const getUser = async (identifier) => {
     try {
         const result = await UserSchema.findById({ _id: identifier })
 
@@ -13,7 +13,7 @@ export const getUser = async (identifier) => {
     }
 }
 
-export const updateUser = async (identifier, data) => {
+const updateUser = async (identifier, data) => {
     const session = await UserSchema.startSession()
     session.startTransaction();
 
@@ -29,4 +29,9 @@ export const updateUser = async (identifier, data) => {
         session.endSession()
         createError({ message: err.message, code: 400 })
     }
+}
+
+module.exports = {
+    getUser,
+    updateUser,
 }

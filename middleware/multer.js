@@ -1,7 +1,7 @@
-import fs from "fs"
-import path from "path"
-import multer from "multer"
-import {createError} from "#utils/error"
+const fs = require("fs") 
+const path = require("path") 
+const multer = require("multer") 
+const { createError } = require("#utils/error.js") 
 
 const uploadPath = path.join(__dirname, "../upload")
 const acceptMimeType = ["image/png", "image/jpg", "image/jpeg"]
@@ -30,4 +30,4 @@ const limits = {
     fieldSize: "2MB"
 }
 
-export default multer({storage, fileFilter, limits})
+exports.default = multer({storage, fileFilter, limits})

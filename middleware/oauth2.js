@@ -1,6 +1,6 @@
-import {getNewRefreshToken} from "#service/oauth2.js"
+const {getNewRefreshToken} = require("#service/oauth2.js")
 
-export default async function (req, res, next) {
+exports.default = async function (req, res, next) {
     try {
         const {expiry_date, refresh_token} = oauth2
 

@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const matchMakingchema = new Schema({
@@ -19,5 +19,5 @@ const matchMakingchema = new Schema({
     }]
 })
 
-const user = mongoose.model('matchMaking', matchMakingchema);
-export default user;
+const matchMaking = mongoose.model('matchMaking', matchMakingchema);
+exports.default = matchMaking;

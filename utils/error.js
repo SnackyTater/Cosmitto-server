@@ -1,17 +1,17 @@
-export const createError = ({code = 400, message = "something has gone wrong", data = {}}) => {
+const createError = ({code = 400, message = "something has gone wrong", data = {}}) => {
     const err = new Error(message)
     err.code = code
     err.data = data
     throw err
 }
 
-export const extractError = err => ({
+const extractError = err => ({
     message: err.message,
     code: err.code,
     data: err.data
 })
 
-export const extractMongooseError = error => {
+const extractMongooseError = error => {
     if (error.code === 11000) {
         const {keyValue} = error
         const errorKey = Object.keys(keyValue)[0]
@@ -25,4 +25,10 @@ export const extractMongooseError = error => {
             [errorKey]: `${errorKey} is required`
         }
     }
+}
+
+module.exports = {
+    createError,
+    extractError,
+    extractMongooseError,
 }

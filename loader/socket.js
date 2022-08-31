@@ -1,6 +1,6 @@
-import {WebSocketServer} from "ws"
+const { WebSocketServer } = require('ws')
 
-export default function (server) {
+module.exports = function (server) {
     const wss = new WebSocketServer({server})
 
     wss.rooms = {}
@@ -26,10 +26,11 @@ export default function (server) {
             const parseData = JSON.parse(message)
             const {action, data, room} = parseData
 
-            if (action === "join") join(room)
-            if (action === "leave") leave(room)
-            if (action === "message")
-                Object.entries(wss.rooms[room]).forEach(([, socket]) => socket.send(data))
+            if(room){
+                if (action === "join") join(room)
+                if (action === "leave") leave(room)
+                if (action === "message") Object.entries(wss.rooms[room]).forEach(([, socket]) => socket.send(data))
+            }
         })
     })
 

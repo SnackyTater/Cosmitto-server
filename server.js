@@ -1,28 +1,23 @@
-import express from "express"
-import * as http from "http"
-import dotenv from "dotenv"
-import path from "path"
+const express = require('express')
+const http = require('http')
+const dotenv = require('dotenv')
+const path = require('path')
 
 //setup dotenv
-const __dirname = process.cwd()
 dotenv.config({
     path: path.resolve(__dirname, "env/dev.env")
 })
 
 //import loader
-import ExpressLoader from "./loader/express.js"
-import MongooseLoader from "./loader/mongoose.js"
-import WebSocketLoader from "./loader/socket.js"
-import {getNewRefreshToken} from './service/oauth2.js'
+const expressLoader = require('#loader/express.js')
+const mongooseLoader = require('#loader/mongoose.js')
+const websocketLoader = require('#loader/socket.js')
 
 //setup server
-const app = ExpressLoader(express)
+const app = expressLoader(express)
 const server = http.createServer(app)
-const wss = WebSocketLoader(server)
+const wss = websocketLoader(server)
+global.io = wss
 
 server.listen(5000, () => console.log("now running on port 5000"))
 // MongooseLoader(() => console.log("mongoose now online"))
-
-getNewRefreshToken(process.env.GOOGLE_REFRESH_TOKEN)
-
-global.io = wss

@@ -1,9 +1,9 @@
-import AccountSchema from '../model/account.js'
-import UserSchema from '../model/user.js'
-import matchMakingSchema from '../model/matchMaking.js'
-import { createResponse, createError } from '../utils/response.js'
+const AccountSchema = require('#model/account.js')
+const UserSchema = require('#model/user.js')
+const matchMakingSchema = require('#model/matchMaking.js')
+const { createResponse, createError } = require('#utils/response.js')
 
-export const saveImage = async (identifier, imageInfo) => {
+const saveImage = async (identifier, imageInfo) => {
     const userSession = await UserSchema.startSession()
 
     userSession.startTransaction();
@@ -37,7 +37,7 @@ export const saveImage = async (identifier, imageInfo) => {
     }
 }
 
-export const deleteImage = async (data) => {
+const deleteImage = async (data) => {
     const accountSession = await AccountSchema.startSession()
     const userSession = await UserSchema.startSession()
     const matchMakingSession = await matchMakingSchema.startSession()
@@ -83,3 +83,7 @@ export const deleteImage = async (data) => {
     }
 }
 
+module.exports = {
+    saveImage,
+    deleteImage,
+}

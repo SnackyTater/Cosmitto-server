@@ -1,23 +1,20 @@
-import cors from "cors"
-import path from "path"
-import errorHandler from "#middleware/errorHandler.js"
-import oauth2 from "#middleware/oauth2.js"
+const cors = require('cors')
+const errorHandler = require("#middleware/errorHandler.js") 
 
-//declare API here
-import userAPI from '#api/user.js'
-import accountAPI from "#api/account.js"
-import passionAPI from '#api/passion.js'
-import requestAPI from '#api/request.js'
-import matchMakingAPI from '#api/matchMaking.js'
+//require API here
+const userAPI = require('#api/user.js') 
+const accountAPI = require("#api/account.js") 
+const passionAPI = require('#api/passion.js') 
+const requestAPI = require('#api/request.js') 
+const matchMakingAPI = require('#api/matchMaking.js') 
 //////////////////
 
-export default function (express) {
+module.exports = (express) => {
     const app = express()
 
     app.use(cors())
     app.use(express.json()) //parsing raw json
     app.use(express.urlencoded({extended: true})) //parsing application/x-www-form-urlencoded
-    app.use(oauth2)
 
     //use API route
     app.use("/api/user", userAPI)

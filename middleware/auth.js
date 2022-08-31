@@ -1,7 +1,7 @@
-import {createError} from "#utils/error.js"
-import {verifyToken} from "#utils/auth.js"
+const { createError } = require("#utils/error.js")
+const { verifyToken } = require("#utils/auth.js")
 
-export default async function (req, res, next) {
+exports.default = async function (req, res, next) {
     try {
         //take token after Bearer token....
         const token = req.headers.authorization?.split(" ")[1]

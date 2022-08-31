@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken"
-import {createError} from "./error.js"
+const jwt = require("jsonwebtoken") 
+const {createError} = require("./error.js") 
 
 const milisecondInOneDay = 1000 * 60 * 60 * 24
 
@@ -8,12 +8,17 @@ const createData = data => ({
     exp: Date.now() + milisecondInOneDay
 })
 
-export const createToken = data => jwt.sign(createData(data), process.env.JWT_SECRET)
+const createToken = data => jwt.sign(createData(data), process.env.JWT_SECRET)
 
-export const verifyToken = token => {
+const verifyToken = token => {
     const {UID, AID, exp} = jwt.verify(token, process.env.JWT_SECRET)
 
     if (Date.now() > exp) createError({message: "token expired", code: 403})
 
     return {UID, AID}
+}
+
+module.exports = {
+    createToken,
+    verifyToken,
 }

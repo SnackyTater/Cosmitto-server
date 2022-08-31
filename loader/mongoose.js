@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
-export default function (callback = () => { }) {
+module.exports = function (callback = () => { }) {
     mongoose
         .connect(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => callback())

@@ -8,12 +8,12 @@ const transporter = nodemailer.createTransport({
         pass: process.env.NODEMAILER_PASSWORD,
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        refreshToken: oauth2.refresh_token || process.env.GOOGLE_REFRESH_TOKEN,
-        accessToken: oauth2.access_token || process.env.GOOGLE_ACCESS_TOKEN,
+        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+        accessToken: process.env.GOOGLE_ACCESS_TOKEN,
     }
 })
 
-export const sendVerifyMail = async(email) => {
+const sendVerifyMail = async(email) => {
     const result = await transporter.sendMail({
         mail: {
             from: 'Cosmitto dating app',
@@ -22,4 +22,8 @@ export const sendVerifyMail = async(email) => {
             template: ''
         }
     })
+}
+
+module.exports = {
+    sendVerifyMail,
 }

@@ -1,20 +1,20 @@
-import {Router} from "express"
+const {Router} = require("express") 
 
-import authMiddleware from "../middleware/auth.js"
-import {createResponse} from "#utils/response.js"
-import {createToken} from "#utils/auth.js"
-import {
+const authMiddleware = require("../middleware/auth.js") 
+const {createResponse} = require("#utils/response.js") 
+const {createToken} = require("#utils/auth.js") 
+const {
     createAccount,
     getAccount,
     updateAccount,
     deleteAccount,
     login
-} from "#controller/account.js"
+} = require("#controller/account.js") 
 
 //setup router
 const router = Router()
 
-router.post("/reset-password", authMiddleware, async (req, res, next) => {
+router.post("/reset-password", async (req, res, next) => {
     try {
         const {action, payload} = req.body
 
@@ -45,4 +45,4 @@ router.post("/verify", async (req, res, next) => {
     }
 })
 
-export default router
+module.exports = router
