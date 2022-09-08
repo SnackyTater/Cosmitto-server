@@ -4,6 +4,8 @@ const nodemon = require('gulp-nodemon')
 const startServer = (done) => {
     const stream = nodemon({
         script: 'server.js',
+        ext: 'js',
+        ignore: ['node_modules/'],
         env: { 'NODE_ENV': 'development' },
         done: done
     })

@@ -23,4 +23,4 @@ const accountchema = new Schema({
 })
 
 const account = mongoose.model('account', accountchema);
-exports.default = account;
+module.exports = account;

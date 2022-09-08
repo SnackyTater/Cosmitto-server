@@ -64,7 +64,7 @@ router.delete("/", (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const {identifier, password} = req.body
-        console.log('aaaaaa')
+        
         const result = await login(identifier, password)
 
         const token = createToken(result)
