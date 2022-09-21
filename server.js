@@ -8,6 +8,8 @@ dotenv.config({
     path: path.resolve(__dirname, "env/dev.env")
 })
 
+const port = process.env.PORT
+
 //import loader
 const expressLoader = require('#loader/express.js')
 const mongooseLoader = require('#loader/mongoose.js')
@@ -19,5 +21,5 @@ const server = http.createServer(app)
 const wss = websocketLoader(server)
 global.io = wss
 
-server.listen(5000, () => console.log("now running on port 5000"))
+server.listen(port, () => console.log("now running on port 5000"))
 // mongooseLoader(() => console.log("mongoose now online"))
