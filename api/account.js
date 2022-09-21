@@ -1,7 +1,7 @@
 const {Router} = require("express") 
 
 const authMiddleware = require("../middleware/auth.js") 
-const {createResponse} = require("#utils/response.js") 
+const {createResponse, createError} = require("#utils/response.js") 
 const {createToken} = require("#utils/auth.js") 
 const {
     createAccount,
@@ -80,10 +80,21 @@ router.post("/login", async (req, res, next) => {
     }
 })
 
-router.get("/sock", async (req, res, next) => {
+router.get("/error", async (req, res, next) => {
     try {
-        console.log("io", io.rooms["a"]["/?id=1"])
-        io.rooms["a"]["/?id=1"].send("aaaaaaaaaaa")
+        console.log('bbbbb')
+        createError({code: 400, message: 'ahihi'})
+    } catch (err) {
+        next(err)
+    }
+})
+
+router.get('/success', async(req, res, next) => {
+    try {
+        const response = createResponse({data: {a: 'b'}, message: 'hello'})
+        res.status(200).json(response)
+
+        createError({code: 400, message: 'ahihi'})
     } catch (err) {
         next(err)
     }

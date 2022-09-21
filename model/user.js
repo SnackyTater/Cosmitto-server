@@ -70,4 +70,4 @@ const userchema = new Schema({
 
 userchema.index({location: "2dsphere"})
 const user = mongoose.model("user", userchema)
-exports.default = user
+module.exports = user

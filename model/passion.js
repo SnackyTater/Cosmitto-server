@@ -10,4 +10,4 @@ const userchema = new Schema({
 })
 
 const user = mongoose.model('user', userchema);
-exports.default = user;
+module.exports = user;

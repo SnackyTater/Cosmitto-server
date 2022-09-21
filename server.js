@@ -20,4 +20,4 @@ const wss = websocketLoader(server)
 global.io = wss
 
 server.listen(5000, () => console.log("now running on port 5000"))
-mongooseLoader(() => console.log("mongoose now online"))
+// mongooseLoader(() => console.log("mongoose now online"))

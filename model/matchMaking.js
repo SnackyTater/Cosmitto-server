@@ -20,4 +20,4 @@ const matchMakingchema = new Schema({
 })
 
 const matchMaking = mongoose.model('matchMaking', matchMakingchema);
-exports.default = matchMaking;
+module.exports = matchMaking;

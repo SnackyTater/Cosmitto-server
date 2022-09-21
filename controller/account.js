@@ -127,8 +127,8 @@ const login = async (identifier, password) => {
             $or: [{email: identifier}, {mobile: identifier}]
         })
 
-        if (!account) createError({message: "wrong account", code: 400})
-        if (password !== account.password) createError({message: "wrong password", code: 400})
+        if (!account) createError({message: "wrong account", code: 400, data: { identifier: 'wrong account'}})
+        if (password !== account.password) createError({message: "wrong password", code: 400, data: { password: 'wrong password'}})
 
         const user = await UserSchema.findOne({account: account._id})
 
