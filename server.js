@@ -3,7 +3,9 @@ const http = require('http')
 const dotenv = require('dotenv')
 const path = require('path')
 
-dotenv.config()
+dotenv.config({
+    path: path.resolve(__dirname, "env/dev.env")
+})
 
 const port = process.env.PORT
 console.log(process.env.ATLAS_URI)
@@ -18,5 +20,6 @@ const server = http.createServer(app)
 const wss = websocketLoader(server)
 global.io = wss
 global.count = 0
+
 server.listen(port, () => console.log("now running on port 5000"))
-// mongooseLoader(() => console.log("mongoose now online"))
+mongooseLoader(() => console.log("mongoose now online"))
