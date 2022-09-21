@@ -3,10 +3,7 @@ const http = require('http')
 const dotenv = require('dotenv')
 const path = require('path')
 
-//setup dotenv
-dotenv.config({
-    path: path.resolve(__dirname, "env/dev.env")
-})
+dotenv.config()
 
 const port = process.env.PORT
 
