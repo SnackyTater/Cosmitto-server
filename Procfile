@@ -1,1 +1,1 @@
-worker: gulp
+worker: yarn start
