@@ -98,7 +98,7 @@ router.get('/success', async(req, res, next) => {
         const response = createResponse({data: {a: 'b'}, message: 'hello'})
         res.status(200).json(response)
 
-        createError({code: 400, message: 'ahihi'})
+        createError({code: 401, message: 'ahihi'})
     } catch (err) {
         next(err)
     }
