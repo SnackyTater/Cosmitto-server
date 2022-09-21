@@ -6,7 +6,7 @@ const path = require('path')
 dotenv.config()
 
 const port = process.env.PORT
-
+console.log(process.env.ATLAS_URI)
 //import loader
 const expressLoader = require('#loader/express.js')
 const mongooseLoader = require('#loader/mongoose.js')
