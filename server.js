@@ -17,6 +17,6 @@ const app = expressLoader(express)
 const server = http.createServer(app)
 const wss = websocketLoader(server)
 global.io = wss
-
+global.count = 0
 server.listen(port, () => console.log("now running on port 5000"))
-mongooseLoader(() => console.log("mongoose now online"))
+// mongooseLoader(() => console.log("mongoose now online"))

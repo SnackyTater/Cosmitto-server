@@ -82,8 +82,12 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/error", async (req, res, next) => {
     try {
-        console.log('bbbbb')
-        createError({code: 400, message: 'ahihi'})
+        count++
+        if(count%2 === 0) createError({code: 400, message: 'ahihi'})
+
+        const response = createResponse({code: 200, data: {a: 'succuess'}, message: 'success'})
+
+        res.status(200).json(response)
     } catch (err) {
         next(err)
     }
