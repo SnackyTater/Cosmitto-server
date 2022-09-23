@@ -4,9 +4,10 @@
 
 # Technology
 - NodeJS (express)
+- Websocket
+- Mongoose
 - Nodemailer
 - Cloudinary
-- Websocket
 
 # Usage
 - step 1: npm install or yarn
