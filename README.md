@@ -1,6 +1,5 @@
 # Cosmitto server
 
-1. use
-
+- used: NodeJS(express), mongoose, websocket
+- services: nodemailer, cloudinary
 - deploy on: https://cosmitto-server.herokuapp.com/
- 
